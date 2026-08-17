@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anju Ojha | Fine Art Gallery</title>
+  <style>
+    :root {
+      --bg-main: #0f0f11;
+      --bg-card: #1a1a1e;
+      --text-main: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --accent-gold: #d4af37;
+      --modal-bg: rgba(0, 0, 0, 0.92);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      padding: 60px 20px 40px;
+      border-bottom: 1px solid #27272a;
+    }
+    h1 {
+      font-size: 2.8rem;
+      letter-spacing: 2px;
+      margin: 0;
+      font-weight: 300;
+      text-transform: uppercase;
+    }
+    p.subtitle {
+      color: var(--accent-gold);
+      font-size: 1rem;
+      letter-spacing: 1px;
+      margin-top: 10px;
+    }
+
+    /* Gallery Grid */
+    .gallery-container {
+      max-width: 1300px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .art-card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid #27272a;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .art-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .img-wrapper {
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+    }
+
+    .art-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .art-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .art-info {
+      padding: 16px;
+    }
+
+    .art-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0 0 4px 0;
+    }
+
+    .art-meta {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin: 0;
+    }
+
+    /* Status Badge */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      font-size: 0.75rem;
+      border-radius: 4px;
+      margin-top: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-available { background: #166534; color: #4ade80; }
+    .badge-sold { background: #7f1d1d; color: #fca5a5; }
+
+    /* Modal Popup */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: var(--modal-bg);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: #18181b;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid #3f3f46;
+      position: relative;
+    }
+
+    @media (min-width: 768px) {
+      .modal-content { flex-direction: row; }
+    }
+
+    .modal-img {
+      flex: 1.2;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-img img {
+      max-width: 100%;
+      max-height: 70vh;
+      object-fit: contain;
+    }
+
+    .modal-details {
+      flex: 1;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px; right: 20px;
+      font-size: 28px;
+      color: #fff;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .inquire-btn {
+      display: inline-block;
+      background: var(--accent-gold);
+      color: #000;
+      padding: 12px 20px;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 6px;
+      margin-top: 20px;
+      transition: opacity 0.2s;
+    }
+
+    .inquire-btn:hover { opacity: 0.9; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Anju Ojha</h1>
+    <p class="subtitle">Fine Art & Wildlife Gallery</p>
+  </header>
+
+  <main class="gallery-container">
+
+    <!-- Artwork 1 (IMG_7846) -->
+    <div class="art-card" onclick="openModal('images/IMG_7846.jpeg', 'Golden Retriever Portrait', 'Colored Pencil & Acrylic • 2025', '12 x 12 inches', 'Available', 'Inquire for Price')">
+      <div class="img-wrapper"><img src="images/IMG_7846.jpeg" alt="Golden Retriever Portrait"></div>
+      <div class="art-info">
+        <div class="art-title">Golden Retriever Portrait</div>
+        <div class="art-meta">Acrylic & Pencil • 2025</div>
+        <span class="badge badge-available">Available</span>
+      </div>
+    </div>
+
+    <!-- Artwork 2 (IMG_7836) -->
+    <div class="art-card" onclick="openModal('images/IMG_7836.jpeg', 'Whiskers & Light', 'Colored Pencil • 2025', '10 x 10 inches', 'Available', 'Inquire for Price')">
+      <div class="img-wrapper"><img src="images/IMG_7836.jpeg" alt="Whiskers & Light"></div>
+      <div class="art-info">
+        <div class="art-title">Whiskers & Light</div>
+        <div class="art-meta">Colored Pencil • 2025</div>
+        <span class="badge badge-available">Available</span>
+      </div>
+    </div>
+
+    <!-- Artwork 3 (IMG_7832) -->
+    <div class="art-card" onclick="openModal('images/IMG_7832.jpeg', 'Wildlife Artwork #1', 'Mixed Media • 2025', '12 x 12 inches', 'Available', 'Inquire for Price')">
+      <div class="img-wrapper"><img src="images/IMG_7832.jpeg" alt="Wildlife Artwork #1"></div>
+      <div class="art-info">
+        <div class="art-title">Wildlife Artwork #1</div>
+        <div class="art-meta">Mixed Media • 2025</div>
+        <span class="badge badge-available">Available</span>
+      </div>
+    </div>
+
+    <!-- Artwork 4 (IMG_7838) -->
+    <div class="art-card" onclick="openModal('images/IMG_7838.jpeg', 'Wildlife Artwork #2', 'Mixed Media • 2025', '12 x 12 inches', 'Available', 'Inquire for Price')">
+      <div class="img-wrapper"><img src="images/IMG_7838.jpeg" alt="Wildlife Artwork #2"></div>
+      <div class="art-info">
+        <div class="art-title">Wildlife Artwork #2</div>
+        <div class="art-meta">Mixed Media • 2025</div>
+        <span class="badge badge-available">Available</span>
+      </div>
+    </div>
+
+    <!-- Artwork 5 (IMG_7840) -->
+    <div class="art-card" onclick="openModal('images/IMG_7840.jpeg', 'Wildlife Artwork #3', 'Mixed Media • 2025', '12 x 12 inches', 'Sold', 'Private Collection')">
+      <div class="img-wrapper"><img src="images/IMG_7840.jpeg" alt="Wildlife Artwork #3"></div>
+      <div class="art-info">
+        <div class="art-title">Wildlife Artwork #3</div>
+        <div class="art-meta">Mixed Media • 2025</div>
+        <span class="badge badge-sold">Sold</span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL POPUP WINDOW -->
+  <div id="artModal" class="modal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <span class="close-btn" onclick="closeModalDirect()">&times;</span>
+      <div class="modal-img">
+        <img id="modalImg" src="" alt="Expanded View">
+      </div>
+      <div class="modal-details">
+        <div>
+          <h2 id="modalTitle" style="margin-top:0;"></h2>
+          <p id="modalMedium" style="color: var(--accent-gold); margin-bottom: 5px;"></p>
+          <p id="modalSize" style="color: var(--text-muted); font-size: 0.9rem;"></p>
+          <hr style="border-color: #3f3f46; margin: 20px 0;">
+          <p id="modalStatus"></p>
+        </div>
+        <a id="modalInquire" href="#" class="inquire-btn">Inquire About This Piece</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(imageSrc, title, medium, size, status, price) {
+      document.getElementById('modalImg').src = imageSrc;
+      document.getElementById('modalTitle').innerText = title;
+      document.getElementById('modalMedium').innerText = medium;
+      document.getElementById('modalSize').innerText = 'Dimensions: ' + size;
+      document.getElementById('modalStatus').innerHTML = '<strong>Status:</strong> ' + status + ' (' + price + ')';
+      document.getElementById('modalInquire').href = 'mailto:your-email@gmail.com?subject=Inquiry: ' + encodeURIComponent(title);
+      document.getElementById('artModal').style.display = 'flex';
+    }
+
+    function closeModal(e) {
+      if (e.target.id === 'artModal') {
+        document.getElementById('artModal').style.display = 'none';
+      }
+    }
+
+    function closeModalDirect() {
+      document.getElementById('artModal').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
