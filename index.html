@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anju Ojha | Fine Art Gallery</title>
+  <title>Anju Ojha | Fine Art & Custom Wildlife Gallery</title>
   <style>
     :root {
-      --bg-main: #0f0f11;
-      --bg-card: #1a1a1e;
+      --bg-main: #0b0b0d;
+      --bg-card: #161619;
+      --bg-card-hover: #1f1f24;
       --text-main: #f4f4f5;
       --text-muted: #a1a1aa;
       --accent-gold: #d4af37;
-      --modal-bg: rgba(0, 0, 0, 0.92);
+      --modal-bg: rgba(0, 0, 0, 0.94);
+      --border-color: #27272a;
     }
 
     * { box-sizing: border-box; }
@@ -25,74 +27,180 @@
       line-height: 1.6;
     }
 
-    /* Header */
+    /* Navigation Bar */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11, 11, 13, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+    }
+
+    .nav-logo {
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 300;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 25px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-gold);
+    }
+
+    /* Header / Hero */
     header {
       text-align: center;
-      padding: 60px 20px 40px;
-      border-bottom: 1px solid #27272a;
+      padding: 70px 20px 40px;
     }
+
     h1 {
-      font-size: 2.8rem;
-      letter-spacing: 2px;
+      font-size: 3rem;
+      letter-spacing: 3px;
       margin: 0;
       font-weight: 300;
       text-transform: uppercase;
     }
+
     p.subtitle {
       color: var(--accent-gold);
-      font-size: 1rem;
-      letter-spacing: 1px;
+      font-size: 1.1rem;
+      letter-spacing: 1.5px;
       margin-top: 10px;
     }
 
-    /* Gallery Grid */
+    /* Editorial Dynamic Grid Layout */
     .gallery-container {
-      max-width: 1300px;
-      margin: 40px auto;
+      max-width: 1350px;
+      margin: 30px auto 60px;
       padding: 0 20px;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 25px;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 30px;
     }
 
+    @media (min-width: 768px) {
+      .gallery-container {
+        grid-template-columns: repeat(6, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .gallery-container {
+        grid-template-columns: repeat(12, 1fr);
+      }
+    }
+
+    /* Card Sizing Modifiers */
     .art-card {
       background: var(--bg-card);
       border-radius: 12px;
       overflow: hidden;
       cursor: pointer;
-      border: 1px solid #27272a;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid var(--border-color);
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Mobile Default */
+    .art-card { grid-column: span 1; }
+
+    @media (min-width: 768px) {
+      .art-card { grid-column: span 3; }
+      .art-card.hero { grid-column: span 3; }
+      .art-card.spotlight { grid-column: span 6; }
+    }
+
+    @media (min-width: 1024px) {
+      /* Standard Grid Item: 3 cols (4 per row) */
+      .art-card { grid-column: span 3; }
+
+      /* Large Featured Hero Cards: 6 cols (2 per row) */
+      .art-card.hero { grid-column: span 6; }
+      .art-card.hero .art-title { font-size: 1.35rem; }
+
+      /* Full Width Horizontal Spotlight Card: 12 cols */
+      .art-card.spotlight {
+        grid-column: span 12;
+        flex-direction: row;
+        align-items: center;
+      }
+      .art-card.spotlight .img-wrapper {
+        width: 60%;
+        aspect-ratio: 16 / 10;
+      }
+      .art-card.spotlight .art-info {
+        width: 40%;
+        padding: 40px;
+      }
     }
 
     .art-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+      transform: translateY(-8px);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.6);
+      border-color: var(--accent-gold);
+      background: var(--bg-card-hover);
     }
 
     .img-wrapper {
       overflow: hidden;
+      width: 100%;
       aspect-ratio: 1 / 1;
+      background: #000;
+    }
+
+    .art-card.hero .img-wrapper {
+      aspect-ratio: 4 / 3;
     }
 
     .art-card img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.4s ease;
+      transition: transform 0.5s ease;
     }
 
     .art-card:hover img {
-      transform: scale(1.05);
+      transform: scale(1.06);
     }
 
     .art-info {
-      padding: 16px;
+      padding: 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .art-title {
       font-size: 1.1rem;
       font-weight: 600;
-      margin: 0 0 4px 0;
+      margin: 0 0 6px 0;
+      letter-spacing: 0.5px;
     }
 
     .art-meta {
@@ -101,18 +209,45 @@
       margin: 0;
     }
 
-    /* Status Badge */
+    /* Badges */
     .badge {
       display: inline-block;
-      padding: 2px 8px;
-      font-size: 0.75rem;
+      padding: 3px 10px;
+      font-size: 0.7rem;
       border-radius: 4px;
-      margin-top: 8px;
+      margin-top: 10px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
+      font-weight: 600;
+      align-self: flex-start;
     }
-    .badge-available { background: #166534; color: #4ade80; }
-    .badge-sold { background: #7f1d1d; color: #fca5a5; }
+    .badge-available { background: rgba(22, 101, 52, 0.3); color: #4ade80; border: 1px solid #166534; }
+    .badge-sold { background: rgba(127, 29, 29, 0.3); color: #fca5a5; border: 1px solid #7f1d1d; }
+
+    /* Commission Section */
+    .commission-section {
+      max-width: 1300px;
+      margin: 80px auto;
+      padding: 50px 30px;
+      background: linear-gradient(145deg, #161619, #0f0f12);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    .commission-section h2 {
+      font-size: 2rem;
+      font-weight: 300;
+      margin-top: 0;
+      letter-spacing: 1px;
+    }
+
+    .commission-section p {
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 15px auto 30px;
+      font-size: 1.05rem;
+    }
 
     /* Modal Popup */
     .modal {
@@ -129,7 +264,7 @@
 
     .modal-content {
       background: #18181b;
-      max-width: 900px;
+      max-width: 950px;
       width: 100%;
       max-height: 90vh;
       border-radius: 12px;
@@ -145,7 +280,7 @@
     }
 
     .modal-img {
-      flex: 1.2;
+      flex: 1.3;
       background: #000;
       display: flex;
       align-items: center;
@@ -154,13 +289,13 @@
 
     .modal-img img {
       max-width: 100%;
-      max-height: 70vh;
+      max-height: 75vh;
       object-fit: contain;
     }
 
     .modal-details {
       flex: 1;
-      padding: 30px;
+      padding: 35px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -175,57 +310,89 @@
       z-index: 10;
     }
 
-    .inquire-btn {
+    .btn-gold {
       display: inline-block;
       background: var(--accent-gold);
       color: #000;
-      padding: 12px 20px;
+      padding: 14px 28px;
       text-align: center;
       text-decoration: none;
       font-weight: 600;
       border-radius: 6px;
-      margin-top: 20px;
-      transition: opacity 0.2s;
+      transition: opacity 0.2s, transform 0.2s;
+      letter-spacing: 0.5px;
     }
 
-    .inquire-btn:hover { opacity: 0.9; }
+    .btn-gold:hover {
+      opacity: 0.9;
+      transform: translateY(-2px);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
   </style>
 </head>
 <body>
 
+  <!-- Sticky Navigation -->
+  <nav>
+    <a href="#" class="nav-logo">Anju Ojha</a>
+    <ul class="nav-links">
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#commissions">Commissions</a></li>
+      <li><a href="mailto:anjuojha4884@gmail.com">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Header -->
   <header>
     <h1>Anju Ojha</h1>
     <p class="subtitle">Fine Art & Wildlife Gallery</p>
   </header>
-  
-<main class="gallery-container">
-  
+
+  <!-- Gallery Container -->
+  <main id="gallery" class="gallery-container">
+
+    <!-- HERO PAIR (Large 6-Column Features) -->
     <!-- Artwork 1 (IMG_7846) -->
-    <div class="art-card" onclick="openModal('images/IMG_7846.jpeg', 'Silent Observer', 'Mixed Media • 2025', '12 x 12 inches', 'Available', 'Inquire for Price', 'A powerful close-up focusing on the intense gaze and complex rosette patterns of a hunting cat.')">
+    <div class="art-card hero" onclick="openModal('images/IMG_7846.jpeg', 'Silent Observer', 'Mixed Media • 2025', '12 x 12 inches', 'Available', 'Inquire for Price', 'A powerful close-up focusing on the intense gaze and complex rosette patterns of a hunting cat.')">
       <div class="img-wrapper"><img src="images/IMG_7846.jpeg" alt="Silent Observer"></div>
       <div class="art-info">
-        <div class="art-title">Silent Observer</div>
-        <div class="art-meta">Mixed Media • 2025</div>
+        <div>
+          <div class="art-title">Silent Observer</div>
+          <div class="art-meta">Mixed Media • 2025</div>
+        </div>
         <span class="badge badge-available">Available</span>
       </div>
     </div>
 
     <!-- Artwork 2 (IMG_7836) -->
-    <div class="art-card" onclick="openModal('images/IMG_7836.jpeg', 'Forest Crown', 'Colored Pencil • 2025', '10 x 10 inches', 'Available', 'Inquire for Price', 'An intricate wildlife study emphasizing the vivid crown feathers and alert, curious gaze of a songbird.')">
+    <div class="art-card hero" onclick="openModal('images/IMG_7836.jpeg', 'Forest Crown', 'Colored Pencil • 2025', '10 x 10 inches', 'Available', 'Inquire for Price', 'An intricate wildlife study emphasizing the vivid crown feathers and alert, curious gaze of a songbird.')">
       <div class="img-wrapper"><img src="images/IMG_7836.jpeg" alt="Forest Crown"></div>
       <div class="art-info">
-        <div class="art-title">Forest Crown</div>
-        <div class="art-meta">Colored Pencil • 2025</div>
+        <div>
+          <div class="art-title">Forest Crown</div>
+          <div class="art-meta">Colored Pencil • 2025</div>
+        </div>
         <span class="badge badge-available">Available</span>
       </div>
     </div>
 
+    <!-- STANDARD GRID QUARTET (3-Columns each) -->
     <!-- Artwork 3 (IMG_7832) -->
     <div class="art-card" onclick="openModal('images/IMG_7832.jpeg', 'Pure Joy', 'Acrylic & Pencil • 2025', '12 x 12 inches', 'Available', 'Inquire for Price', 'A warm, soulful portrait catching the loyal spirit, gentle warmth, and golden light of a cherished companion.')">
       <div class="img-wrapper"><img src="images/IMG_7832.jpeg" alt="Pure Joy"></div>
       <div class="art-info">
-        <div class="art-title">Pure Joy</div>
-        <div class="art-meta">Acrylic & Pencil • 2025</div>
+        <div>
+          <div class="art-title">Pure Joy</div>
+          <div class="art-meta">Acrylic & Pencil • 2025</div>
+        </div>
         <span class="badge badge-available">Available</span>
       </div>
     </div>
@@ -234,18 +401,22 @@
     <div class="art-card" onclick="openModal('images/IMG_7838.jpeg', 'Currents of Grace', 'Mixed Media • 2025', '14 x 14 inches', 'Available', 'Inquire for Price', 'Sunlit waters illuminate the weightless majesty of a sea turtle gliding effortlessly across a coral reef.')">
       <div class="img-wrapper"><img src="images/IMG_7838.jpeg" alt="Currents of Grace"></div>
       <div class="art-info">
-        <div class="art-title">Currents of Grace</div>
-        <div class="art-meta">Mixed Media • 2025</div>
+        <div>
+          <div class="art-title">Currents of Grace</div>
+          <div class="art-meta">Mixed Media • 2025</div>
+        </div>
         <span class="badge badge-available">Available</span>
       </div>
     </div>
 
-    <!-- Artwork 5 (IMG_7840) — SOLD #1 -->
+    <!-- Artwork 5 (IMG_7840) - SOLD #1 -->
     <div class="art-card" onclick="openModal('images/IMG_7840.jpeg', 'Whispers in Light', 'Colored Pencil • 2025', '12 x 12 inches', 'Sold', 'Private Collection', 'Delicate line work and luminous highlights illuminate the soft fur and quiet elegance of a feline portrait.')">
       <div class="img-wrapper"><img src="images/IMG_7840.jpeg" alt="Whispers in Light"></div>
       <div class="art-info">
-        <div class="art-title">Whispers in Light</div>
-        <div class="art-meta">Colored Pencil • 2025</div>
+        <div>
+          <div class="art-title">Whispers in Light</div>
+          <div class="art-meta">Colored Pencil • 2025</div>
+        </div>
         <span class="badge badge-sold">Sold</span>
       </div>
     </div>
@@ -254,28 +425,38 @@
     <div class="art-card" onclick="openModal('images/IMG_7834.jpeg', 'Scarlet & Azure', 'Mixed Media • 2025', '12 x 12 inches', 'Available', 'Inquire for Price', 'A vibrant songbird nestled amidst rich crimson blossoms, showcasing a harmony of bold color and living detail.')">
       <div class="img-wrapper"><img src="images/IMG_7834.jpeg" alt="Scarlet & Azure"></div>
       <div class="art-info">
-        <div class="art-title">Scarlet & Azure</div>
-        <div class="art-meta">Mixed Media • 2025</div>
+        <div>
+          <div class="art-title">Scarlet & Azure</div>
+          <div class="art-meta">Mixed Media • 2025</div>
+        </div>
         <span class="badge badge-available">Available</span>
       </div>
     </div>
 
+    <!-- WIDE SPOTLIGHT FEATURE (Full 12-Columns Banner) -->
     <!-- Artwork 7 (IMG_7835) -->
-    <div class="art-card" onclick="openModal('images/IMG_7835.jpeg', 'Symphony of Flight', 'Mixed Media • 2025', '12 x 12 inches', 'Available', 'Inquire for Price', 'Vibrant hues and dynamic detail capture the unrestrained energy and feathered splendor of a tropical bird in motion.')">
+    <div class="art-card spotlight" onclick="openModal('images/IMG_7835.jpeg', 'Symphony of Flight', 'Mixed Media • 2025', '12 x 12 inches', 'Available', 'Inquire for Price', 'Vibrant hues and dynamic detail capture the unrestrained energy and feathered splendor of a tropical bird in motion.')">
       <div class="img-wrapper"><img src="images/IMG_7835.jpeg" alt="Symphony of Flight"></div>
       <div class="art-info">
-        <div class="art-title">Symphony of Flight</div>
-        <div class="art-meta">Mixed Media • 2025</div>
-        <span class="badge badge-available">Available</span>
+        <div>
+          <span style="color: var(--accent-gold); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Featured Artwork</span>
+          <div class="art-title" style="font-size: 1.8rem; margin-top: 5px;">Symphony of Flight</div>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 10px; font-style: italic;">"Vibrant hues and dynamic detail capture the unrestrained energy and feathered splendor of a tropical bird in motion."</p>
+          <div class="art-meta" style="margin-top: 15px;">Mixed Media • 2025 • 12 x 12 inches</div>
+        </div>
+        <span class="badge badge-available" style="margin-top: 20px;">Available</span>
       </div>
     </div>
 
-    <!-- Artwork 8 (IMG_7837) — SOLD #2 -->
+    <!-- CLOSING GRID QUARTET -->
+    <!-- Artwork 8 (IMG_7837) - SOLD #2 -->
     <div class="art-card" onclick="openModal('images/IMG_7837.jpeg', 'Celestial Vision', 'Mixed Media • 2025', '12 x 12 inches', 'Sold', 'Private Collection', 'A surreal fusion of cosmic wonder and perception, reflecting galaxies and orbital light within a single eye.')">
       <div class="img-wrapper"><img src="images/IMG_7837.jpeg" alt="Celestial Vision"></div>
       <div class="art-info">
-        <div class="art-title">Celestial Vision</div>
-        <div class="art-meta">Mixed Media • 2025</div>
+        <div>
+          <div class="art-title">Celestial Vision</div>
+          <div class="art-meta">Mixed Media • 2025</div>
+        </div>
         <span class="badge badge-sold">Sold</span>
       </div>
     </div>
@@ -284,8 +465,10 @@
     <div class="art-card" onclick="openModal('images/IMG_7841.jpeg', 'Serenade in White', 'Oil & Acrylic • 2025', '12 x 16 inches', 'Available', 'Inquire for Price', 'A celebration of fluid movement and tranquility, capturing the elegant contours of a swan resting on quiet waters.')">
       <div class="img-wrapper"><img src="images/IMG_7841.jpeg" alt="Serenade in White"></div>
       <div class="art-info">
-        <div class="art-title">Serenade in White</div>
-        <div class="art-meta">Oil & Acrylic • 2025</div>
+        <div>
+          <div class="art-title">Serenade in White</div>
+          <div class="art-meta">Oil & Acrylic • 2025</div>
+        </div>
         <span class="badge badge-available">Available</span>
       </div>
     </div>
@@ -294,18 +477,22 @@
     <div class="art-card" onclick="openModal('images/IMG_7842.jpeg', 'Gaze of the High Peak', 'Mixed Media • 2025', '12 x 12 inches', 'Available', 'Inquire for Price', 'An intimate study highlighting the soft textures and piercing emerald eyes of the elusive snow leopard.')">
       <div class="img-wrapper"><img src="images/IMG_7842.jpeg" alt="Gaze of the High Peak"></div>
       <div class="art-info">
-        <div class="art-title">Gaze of the High Peak</div>
-        <div class="art-meta">Mixed Media • 2025</div>
+        <div>
+          <div class="art-title">Gaze of the High Peak</div>
+          <div class="art-meta">Mixed Media • 2025</div>
+        </div>
         <span class="badge badge-available">Available</span>
       </div>
     </div>
 
-    <!-- Artwork 11 (IMG_7843) — SOLD #3 -->
+    <!-- Artwork 11 (IMG_7843) - SOLD #3 -->
     <div class="art-card" onclick="openModal('images/IMG_7843.jpeg', 'Playful Monarch', 'Colored Pencil • 2025', '12 x 12 inches', 'Sold', 'Private Collection', 'A striking wildlife portrait balancing the fierce grace and spirited expression of the leopard against a dark canvas.')">
       <div class="img-wrapper"><img src="images/IMG_7843.jpeg" alt="Playful Monarch"></div>
       <div class="art-info">
-        <div class="art-title">Playful Monarch</div>
-        <div class="art-meta">Colored Pencil • 2025</div>
+        <div>
+          <div class="art-title">Playful Monarch</div>
+          <div class="art-meta">Colored Pencil • 2025</div>
+        </div>
         <span class="badge badge-sold">Sold</span>
       </div>
     </div>
@@ -314,13 +501,22 @@
     <div class="art-card" onclick="openModal('images/IMG_7844.jpeg', 'Roots of Solitude', 'Mixed Media • 2025', '10 x 14 inches', 'Available', 'Inquire for Price', 'An exploration of organic textures and subterranean light, capturing the quiet strength of nature\'s hidden architecture.')">
       <div class="img-wrapper"><img src="images/IMG_7844.jpeg" alt="Roots of Solitude"></div>
       <div class="art-info">
-        <div class="art-title">Roots of Solitude</div>
-        <div class="art-meta">Mixed Media • 2025</div>
+        <div>
+          <div class="art-title">Roots of Solitude</div>
+          <div class="art-meta">Mixed Media • 2025</div>
+        </div>
         <span class="badge badge-available">Available</span>
       </div>
     </div>
-    
+
   </main>
+
+  <!-- Commissions Section -->
+  <section id="commissions" class="commission-section">
+    <h2>Commission a Custom Portrait</h2>
+    <p>Capture the essence and personality of your pets or favorite wildlife with a bespoke hand-drawn artwork by Anju Ojha.</p>
+    <a href="mailto:anjuojha4884@gmail.com?subject=Custom%20Commission%20Inquiry" class="btn-gold">Request Custom Artwork</a>
+  </section>
 
   <!-- MODAL POPUP WINDOW -->
   <div id="artModal" class="modal" onclick="closeModal(event)">
@@ -333,23 +529,38 @@
         <div>
           <h2 id="modalTitle" style="margin-top:0;"></h2>
           <p id="modalMedium" style="color: var(--accent-gold); margin-bottom: 5px;"></p>
-          <p id="modalSize" style="color: var(--text-muted); font-size: 0.9rem;"></p>
+          <p id="modalSize" style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0;"></p>
+          <p id="modalDesc" style="color: #e4e4e7; font-style: italic; line-height: 1.5; margin-top: 15px; font-size: 0.95rem;"></p>
           <hr style="border-color: #3f3f46; margin: 20px 0;">
-          <p id="modalStatus"></p>
+          <p id="modalStatus" style="margin-bottom: 0;"></p>
         </div>
-        <a id="modalInquire" href="#" class="inquire-btn">Inquire About This Piece</a>
+        <a id="modalInquire" href="#" class="btn-gold" style="margin-top: 20px;">Inquire About This Piece</a>
       </div>
     </div>
   </div>
 
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 Anju Ojha Fine Art. All rights reserved.</p>
+  </footer>
+
   <script>
-    function openModal(imageSrc, title, medium, size, status, price) {
+    function openModal(imageSrc, title, medium, size, status, price, description) {
       document.getElementById('modalImg').src = imageSrc;
       document.getElementById('modalTitle').innerText = title;
       document.getElementById('modalMedium').innerText = medium;
       document.getElementById('modalSize').innerText = 'Dimensions: ' + size;
+      document.getElementById('modalDesc').innerText = '"' + description + '"';
       document.getElementById('modalStatus').innerHTML = '<strong>Status:</strong> ' + status + ' (' + price + ')';
-      document.getElementById('modalInquire').href = 'anjuojha4884@gmail.com?subject=Inquiry: ' + encodeURIComponent(title);
+      
+      const inquireBtn = document.getElementById('modalInquire');
+      if (status === 'Sold') {
+        inquireBtn.style.display = 'none';
+      } else {
+        inquireBtn.style.display = 'inline-block';
+        inquireBtn.href = 'mailto:anjuojha4884@gmail.com?subject=Inquiry: ' + encodeURIComponent(title);
+      }
+
       document.getElementById('artModal').style.display = 'flex';
     }
 
